@@ -9,7 +9,8 @@
 ;;; Copyright © 2025 Sharlatan Hellseher <sharlatanus@gmail.com>
 ;;; Copyright © 2025 Zheng Junjie <z572@z572.online>
 ;;; Copyright © 2025 Evgenii Lepikhin <johnlepikhin@gmail.com>
-;;;
+;;; Copyright © 2026 Grigory Shepelev <mail@grigory.tech>
+
 ;;; This file is part of GNU Guix.
 ;;;
 ;;; GNU Guix is free software; you can redistribute it and/or modify it
@@ -102,7 +103,7 @@
          #~(cons* "-DCMAKE_CXX_STANDARD=17"
                   #$flags)))))))
 
-(define %telegram-version "7.0.9")
+(define %telegram-version "7.1.1")
 
 (define libyuv-for-telegram-desktop
   (let ((commit "04821d1e7d60845525e8db55c7bcd41ef5be9406")
@@ -148,7 +149,7 @@
     (method git-fetch)
     (uri (git-reference
           (url "https://github.com/desktop-app/cmake_helpers.git")
-          (commit "f79a0e6acdae261270391253d24f47efb54e9a7d")))
+          (commit "d762a382425f5932697eb9acd855d826fa8a97c9")))
     (file-name
      (git-file-name "cmake-helpers-for-telegram-desktop" %telegram-version))
     (patches
@@ -160,7 +161,7 @@
           '("telegram-desktop-unbundle-cppgir-v2.patch")))
     (sha256
      (base32
-      "0j1y52lccilqw1wvncylxy556zj5cx5hc1k31kzhyfkj78s5z18k"))))
+      "104kl5bs35pnahsqnagx7q3v60mqdg6ycqhg2qf7c9z9wsny6y0j"))))
 
 (define codegen-for-telegram-desktop
   (origin
@@ -179,12 +180,12 @@
     (method git-fetch)
     (uri (git-reference
           (url "https://github.com/desktop-app/lib_base.git")
-          (commit "82d182a275e197fd717fecc86193d9d91f4fc5b5")))
+          (commit "ec138d83c31ae945822712ac0e596bebc95d34c6")))
     (file-name
      (git-file-name "lib-base-for-telegram-desktop" %telegram-version))
     (sha256
      (base32
-      "18zwbyifdcsk4pn43pn9dk0l8nrvcyx5lgf8s20shaypmnwkpnv9"))))
+      "15kssv04kgykrvmxyyrx7ba1ag0sbrmf2dzzhmm4whvl0j38xpia"))))
 
 (define lib-crl-for-telegram-desktop
   (origin
@@ -239,12 +240,12 @@
     (method git-fetch)
     (uri (git-reference
           (url "https://github.com/desktop-app/lib_spellcheck.git")
-          (commit "1f18c1e35b99697fe58d48d7f5a88e96c928128e")))
+          (commit "3a47097adf84c7f3236799158564d655e12ac2f2")))
     (file-name
      (git-file-name "lib-spellcheck-for-telegram-desktop" %telegram-version))
     (sha256
      (base32
-      "1w71ykmc77x1jl8p2hvcmacvh8wvh9pk9apr9sb6mxksswdj3jzp"))))
+      "0jgdqiykqkcsf1v6raiscrsz2c9rbqxgkac1bwdmy4982d42j4yj"))))
 
 (define lib-storage-for-telegram-desktop
   (origin
@@ -294,7 +295,7 @@
     (method git-fetch)
     (uri (git-reference
           (url "https://github.com/desktop-app/lib_ui.git")
-          (commit "9e9e5e1fc5ba7e3f4d5407b484210db3b46aa53d")))
+          (commit "e3163c75370fdb37f00ff2a6e354c2a9721eedbd")))
     (file-name
      (git-file-name "lib-ui-for-telegram-desktop" %telegram-version))
     (patches
@@ -306,7 +307,7 @@
           '("lib-ui-for-telegram-accessible-orientation.patch")))
     (sha256
      (base32
-      "0zqfjn6sa7hmdr8z4qgnaq1hhkq5y6lwq6a96f2g67v68152dl5r"))))
+      "1p9x12x7d497pvkr01p1zcq1ypzn8rlwqhp5br5gb0zc1y5x90vy"))))
 
 (define lib-webrtc-for-telegram-desktop
   (origin
@@ -325,12 +326,12 @@
     (method git-fetch)
     (uri (git-reference
           (url "https://github.com/desktop-app/lib_webview.git")
-          (commit "71c948902bfac5b25e90e1c9d1c8a34d1ee275c0")))
+          (commit "3db630a01f4a0603258fda42d5c91275ed7398d4")))
     (file-name
      (git-file-name "lib-webview-for-telegram-desktop" %telegram-version))
     (sha256
      (base32
-      "1dlyap20hhmzwgrpj159wgwsi5xsfgjsckfpnzvad8w720l18icf"))))
+      "0kk60fr48cp9pniyvgbzmds5cv55s9mm5zzxcgmqgzdizj5cf907"))))
 
 (define tgcalls-for-telegram-desktop
   (origin
@@ -456,8 +457,8 @@ Telegram project, for its use in telegram desktop client.")
          license:bsd-3))))))
 
 (define-public rlottie-for-telegram-desktop
-  (let ((commit "8c69fc20cf2e150db304311f1233a4b55a8892d7")
-        (revision "678"))
+  (let ((commit "dcfe6f62f27522cda4f06f6d6b497ed7fd0917e9")
+        (revision "680"))
     (hidden-package
      (package
        (name "rlottie-for-telegram-desktop")
@@ -471,7 +472,7 @@ Telegram project, for its use in telegram desktop client.")
           (file-name
            (git-file-name name version))
           (sha256
-           (base32 "14gwg3sn6xdx9ymnx5r0vfm4pk8dwk92s10a1wdvfbjpyrxll64i"))
+           (base32 "0lg0mjcpp7drr1wb7aqxik7014xkh1ng7hcfihjvdi02gvmpzf3k"))
           (modules '((guix build utils)))
           (snippet
            #~(begin
@@ -568,12 +569,12 @@ and not propagated to upstream.")
    (method git-fetch)
    (uri (git-reference
          (url "https://github.com/desktop-app/MicroTeX.git")
-         (commit "7059649a44c24b640c831adef1e5f5b86e77299f")))
+         (commit "61aaa7cc354de91d5898ffb0b2a6c62628d9a76f")))
    (file-name
     (git-file-name "microtex-for-telegram-desktop" %telegram-version))
    (sha256
     (base32
-     "1jggxiza13j82vbrphhkhigq46fnxkbz9yfwrq98rids535q6igl"))))
+     "1isplcrdwyadlgz251817096y793cnmqms3ial36hvbigjq60qf4"))))
 
 (define toomanycooks-for-telegram-desktop
   ;; Header-only C++20 coroutine task scheduler; replaced libdispatch on
@@ -625,12 +626,12 @@ and not propagated to upstream.")
    (method git-fetch)
    (uri (git-reference
          (url "https://github.com/github/cmark-gfm.git")
-         (commit "587a12bb54d95ac37241377e6ddc93ea0e45439b")))
+         (commit "d7d4a24a9ebfa7581994ea6df0297662bfeaf413")))
    (file-name
     (git-file-name "cmark-gfm-for-telegram-desktop" %telegram-version))
    (sha256
     (base32
-     "1apy9i76rgs0bmgdlpjszv0fpqhlap2s12m68wvnsv8j3fsqc90y"))))
+     "1xil7lq50qvz623r8v3d92iggb871j9wsc3s7z6v4x7nrn3x8mg0"))))
 
 (define kcoreaddons-for-telegram-desktop
   ;; tdesktop 7.x wires KCoreAddons through cmake_helpers'
@@ -686,7 +687,7 @@ secure group calls with end-to-end encryption.")
        (file-name
         (git-file-name name version))
        (sha256
-        (base32 "09xii90rvzzwj9s6prz7dp9i3gq6na2hwyah72j10yc7b103cys1"))
+        (base32 "0mf9qgylnvkl76n8zgyb1dlkgznlqxn4n2kgyxg1p7aqngqjwjkw"))
        (patches
         (map (lambda (patch)
                (search-path
