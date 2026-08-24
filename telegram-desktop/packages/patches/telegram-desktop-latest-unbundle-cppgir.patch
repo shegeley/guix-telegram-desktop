@@ -1,0 +1,21 @@
+Path-adjusted for telegram-desktop/latest's single recursive-submodule
+checkout: cmake_helpers now lives at cmake instead of being its own
+checkout root (see telegram-desktop-unbundle-cppgir-v2.patch for the
+original).
+
+--- a/cmake/external/glib/CMakeLists.txt
++++ b/cmake/external/glib/CMakeLists.txt
+@@ -21,11 +21,12 @@
+     GLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_56
+ )
+
++# Force use of bundled cppgir to avoid target issues
+ block()
+     set(BUILD_TESTING OFF)
+     set(BUILD_DOC OFF)
+     set(BUILD_EXAMPLES OFF)
+-    add_subdirectory(cppgir EXCLUDE_FROM_ALL)
++    add_subdirectory(cppgir EXCLUDE_FROM_ALL)
+ endblock()
+
+ include(generate_cppgir.cmake)

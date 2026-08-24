@@ -82,6 +82,7 @@
   #:use-module (guix packages)
   #:use-module (guix gexp)
   #:use-module (guix git-download)
+  #:use-module (guix upstream)
   #:use-module (guix build-system cmake)
   #:use-module (guix build-system copy)
   #:use-module (guix build-system glib-or-gtk)
@@ -885,3 +886,62 @@ Telegram instant messenger.")
       license:lgpl3
       ;; Others
       license:gpl3+))))
+
+;; Falls back to the pin on lookup failure (rate limit, no network).
+(define telegram-desktop-latest-version
+  (let ((update (package-latest-release telegram-desktop)))
+    (if update (upstream-source-version update) %telegram-version)))
+
+(define* (%latest-source-fetch source hash-algo hash
+                               #:optional name
+                               #:key (system (%current-system))
+                               (guile (default-guile))
+                               executable?)
+  "Fetch @var{source}, an @code{<upstream-source>}; the hash is computed
+live instead of checked against @var{hash} (same trick @samp{--with-latest}
+uses via the unexported @code{upstream-fetch} in
+@code{(guix transformations)})."
+  (lower-object source system))
+
+;; Recursive checkout of upstream's newest tag; coexists with the pinned
+;; TELEGRAM-DESKTOP above (submodule commits stay in sync automatically
+;; instead of being hand-tracked).
+(define-public telegram-desktop/latest
+  (package
+    (inherit telegram-desktop)
+    (version telegram-desktop-latest-version)
+    (source
+     (origin
+       (method %latest-source-fetch)
+       (uri (upstream-source
+             (package "telegram-desktop")
+             (version telegram-desktop-latest-version)
+             (urls (git-reference
+                    (url "https://github.com/telegramdesktop/tdesktop.git")
+                    (commit (string-append "v" telegram-desktop-latest-version))
+                    (recursive? #t)))))
+       (sha256
+        (base32 "0mf9qgylnvkl76n8zgyb1dlkgznlqxn4n2kgyxg1p7aqngqjwjkw")) ;unused
+       (file-name
+        (git-file-name "telegram-desktop" telegram-desktop-latest-version))
+       (patches
+        (map (lambda (patch)
+               (search-path
+                (map (cut string-append <> "/telegram-desktop/packages/patches")
+                     %load-path)
+                patch))
+             '("telegram-desktop-qguiapp.patch"
+               "telegram-desktop-hashmap-incomplete-value.patch"
+               "telegram-desktop-fix-launch-maps.patch"
+               ;; Path-adjusted for the recursive checkout above.
+               "telegram-desktop-latest-lib-tl-memcpy.patch"
+               "telegram-desktop-latest-unbundle-cppgir.patch"
+               "telegram-desktop-latest-lib-ui-accessible-orientation.patch")))))
+    (arguments
+     (substitute-keyword-arguments (package-arguments telegram-desktop)
+       ((#:phases phases)
+        #~(modify-phases #$phases
+            ;; Submodules already present via the recursive checkout.
+            (replace 'unpack-additional-sources
+              (lambda _
+                (for-each make-file-writable (find-files "."))))))))))
