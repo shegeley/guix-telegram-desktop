@@ -887,9 +887,12 @@ Telegram instant messenger.")
       ;; Others
       license:gpl3+))))
 
-;; Falls back to the pin on lookup failure (rate limit, no network).
+;; Falls back to the pin on lookup failure (rate limit, no network,
+;; or -- inside a sandboxed `guix pull' build with no resolver at all --
+;; an uncaught getaddrinfo-error; PACKAGE-LATEST-RELEASE only itself
+;; guards against SOME failure modes, so wrap unconditionally.
 (define telegram-desktop-latest-version
-  (let ((update (package-latest-release telegram-desktop)))
+  (let ((update (false-if-exception (package-latest-release telegram-desktop))))
     (if update (upstream-source-version update) %telegram-version)))
 
 (define* (%latest-source-fetch source hash-algo hash
