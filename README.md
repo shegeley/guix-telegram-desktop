@@ -11,7 +11,7 @@ Add this channel to your `~/.config/guix/channels.scm`:
         (name 'telegram-desktop)
         (branch "main")
         ;; or
-        (commit "v6.7.2")
+        (commit "v7.1.1")
         (url "https://github.com/johnlepikhin/guix-telegram-desktop"))
        %default-channels)
 ```
