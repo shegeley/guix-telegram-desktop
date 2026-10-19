@@ -4,6 +4,10 @@
   (version 0)
   (dependencies
    (channel
+    (name x-files)
+    (url "https://github.com/shegeley/x-files.git")
+    (branch "master"))
+   (channel
     (name guix)
     (url "https://git.savannah.gnu.org/git/guix.git")
     (minimum-guix "1.4.0"))))
