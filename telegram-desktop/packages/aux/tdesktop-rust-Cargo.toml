@@ -1,0 +1,21 @@
+[package]
+name = "tdesktop-rust"
+version = "7.3.1"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+
+[lib]
+crate-type = ["staticlib", "cdylib"]
+
+[dependencies]
+tlottie = { path = "../tlottie", features = ["c-api"] }
+wallet-engine = { path = "../wallet-engine" }
+
+[profile.release]
+opt-level = "z"
+lto = "thin"
+codegen-units = 1
+panic = "unwind"
+
+[profile.release.package.tlottie]
+opt-level = 3

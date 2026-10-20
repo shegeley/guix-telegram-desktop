@@ -78,7 +78,7 @@
   #:use-module (gnu packages xdisorg)
   #:use-module (gnu packages xiph)
   #:use-module (gnu packages xorg)
-  #:use-module ((x-files packages telegram-rust) #:select (tdesktop-rust))
+  #:use-module ((telegram-desktop packages telegram-rust) #:select (tdesktop-rust))
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
   #:use-module (guix gexp)
